@@ -1,8 +1,6 @@
 <div align="center">
 
-# QDA Label Shift Estimation
-
-**Semiparametric Efficient Estimation of QDA Parameters under Label Shift**
+# SSDALS : Semi-supervised Discriminant Analysis under Label Shift
 
 Estimates corrected QDA classifier parameters for a target domain whose label proportion P(Y) differs from the source domain, and compares four correction methods (Efficient / Naive / BBSE / RLLS) via simulation.
 

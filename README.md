@@ -4,10 +4,6 @@
 
 **Semiparametric Efficient Estimation of QDA Parameters under Label Shift**
 
-[![R](https://img.shields.io/badge/R-%3E%3D4.0-276DC3?logo=r&logoColor=white)](https://www.r-project.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/status-research-orange.svg)](#)
-
 Estimates corrected QDA classifier parameters for a target domain whose label proportion P(Y) differs from the source domain, and compares four correction methods (Efficient / Naive / BBSE / RLLS) via simulation.
 
 </div>

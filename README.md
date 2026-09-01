@@ -29,8 +29,6 @@ Estimates corrected QDA classifier parameters for a target domain whose label pr
 - [References](#references)
 - [Research Status](#research-status)
 - [Acknowledgement](#acknowledgement)
-- [Citation](#citation)
-- [License](#license)
 
 ---
 
@@ -190,11 +188,3 @@ The code is provided to document the implementation and experimental development
 ## Acknowledgement
 
 This repository was developed with support from the 서울시립대학교 데이터 사이언스 플러스 차세대 융합인재 양성사업단 - http://dsplus.uos.ac.kr/
-
-## Citation
-
-If you use this repository, please cite it using the metadata in [`CITATION.cff`](CITATION.cff) (GitHub also shows a "Cite this repository" button in the sidebar, generated automatically from this file).
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).

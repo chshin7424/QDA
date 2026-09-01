@@ -2,8 +2,7 @@
 
 # SSDALS : Semi-supervised Discriminant Analysis under Label Shift
 
-Estimates corrected QDA classifier parameters for a target domain whose label proportion P(Y) differs from the source domain, and compares four correction methods (Efficient / Naive / BBSE / RLLS) via simulation.
-
+Demonstrates the superiority of the proposed semiparametric efficient QDA estimator over existing label-shift correction methods (BBSE, RLLS, Naive) via Monte Carlo simulation under label shift $P(Y)$.
 </div>
 
 ---

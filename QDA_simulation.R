@@ -1,9 +1,3 @@
-# 비대각 원소 추정 X (Sigma0_11, Sigma0_22, Sigma1_11, Sigma1_22 각각 독립 추정하는 대각 2x2 모델 시뮬레이션)
-# [수정] [4] 분류 정확도(Accuracy)/MCC 계산부 최적화
-#   - Sigma가 항상 대각행렬이라는 사실을 이용해 mvtnorm::dmvnorm(공분산 분해 포함) 대신
-#     대각전용 log-density를 직접 벡터화 계산 -> 수치적으로 동일한 결과, 계산 시간 단축
-#   - model_metrics를 for + list 누적 대신 vapply로 처리하여 재할당 오버헤드 제거
-
 library(snowfall)
 library(MASS)
 library(mvtnorm)
@@ -396,9 +390,6 @@ run_simulation_worker <- function(iter) {
   return(c(result_vec, ecount))
 }
 
-# 코드 동작 확인용 코드
-# run_simulation_worker(iter = 1)
-
 
 # 병렬 실행 ===============================================
 
@@ -526,18 +517,6 @@ getwd()
 # ============================================================================
 # [4] Classification Accuracy Evaluation (QDA 버전) - [수정] 속도 최적화
 # ============================================================================
-# [수정 근거]
-# 1) Sigma0/Sigma1는 이 시뮬레이션 구조상 항상 대각행렬이므로, 두 변수가
-#    독립인 정규분포의 곱과 수학적으로 완전히 동일함:
-#       dmvnorm(x, mu, diag(c(s1, s2))) == dnorm(x1, mu1, sqrt(s1)) * dnorm(x2, mu2, sqrt(s2))
-#    mvtnorm::dmvnorm은 매 호출마다 공분산 행렬의 분해(양의정치성 체크, 역행렬/행렬식
-#    계산)를 수행하는데, 대각행렬에서는 이 과정이 전부 불필요한 오버헤드임.
-#    -> log_dnorm_diag()로 직접 벡터화하여 동일 결과를 더 빠르게 계산.
-# 2) 결과값은 부동소수점 오차(1e-12 이하) 수준까지 기존 dmvnorm 결과와 동일하며,
-#    y_pred / TP / TN / FP / FN / Accuracy / MCC 모두 그대로 재현됨.
-# 3) model_metrics 계산을 for + list 누적 대신 vapply로 바꿔 반복적인 리스트
-#    재할당 오버헤드를 제거.
-# ============================================================================
 
 # 대각공분산 전용 log-density: mvtnorm::dmvnorm(..., sigma = diag(sigma_diag))와 수치적으로 동일
 log_dnorm_diag <- function(x, mu, sigma_diag) {
@@ -592,8 +571,7 @@ for (i in 1:n_test) {
 }
 
 # base line -------------------------------------------------------------
-# Oracle: 참값(alpha=theta, mu0_true, mu1_true, Sigma0_true, Sigma1_true)을 그대로 사용
-# [수정] eval_performance가 이제 대각벡터를 받으므로 diag()로 만들지 않고 대각원소만 추출
+
 oracle_thetas <- list(
   alpha = theta, mu1 = mu1_true, mu0 = mu0_true,
   sigma1_diag = c(Sigma1_true[1, 1], Sigma1_true[2, 2]),

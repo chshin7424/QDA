@@ -1,6 +1,6 @@
 <div align="center">
 
-# SEQDA-LS : Semiparametric Efficient QDA under Label Shift
+# Semi-supervised Quadratic Discriminant Analysis under Label Shift
 
 Demonstrates the superiority of the proposed semiparametric efficient QDA estimator over existing label-shift correction methods (BBSE, RLLS, Naive) via Monte Carlo simulation under label shift $P(Y)$.
 </div>

@@ -1,9 +1,3 @@
-# 비대각 원소 추정 X (Sigma0_11, Sigma0_22, Sigma1_11, Sigma1_22 각각 독립 추정하는 대각 2x2 모델)
-# [수정] precompute.f 도입: model/P/Q/pi1에만 의존하고 thetas에는 무관한 값들을
-#        optim 루프 진입 전 1회만 계산 -> eff.f/naive.f/bbse.f/rlls.f 호출 시그니처가
-#        (model, P, Q, pi1, thetas) -> (P, pi1, precomp, thetas) 로 변경됨
-# [수정] U.f의 sigma_score를 for-loop 없이 벡터화 (invSigma 대칭성 이용)
-
 library(MASS)
 library(mvtnorm)
 
@@ -39,9 +33,7 @@ U.f <- function(y, x, thetas) {
   x_minus_mu1 <- t(t(x) - mu1)
   u3 <- (y - q1) * (x_minus_mu1 %*% invSigma1)
   
-  # [수정] for-loop 제거: invSigma가 항상 대칭행렬이라는 성질을 이용해 벡터화.
-  # v_i = invSigma %*% x_centered_i 라고 하면
-  # invSigma %*% (xi %*% t(xi)) %*% invSigma 의 (j,j) 대각원소는 v_i[j]^2 와 같다.
+  
   sigma_score <- function(x_centered, invSigma, Sigma) {
     V <- x_centered %*% invSigma   # n x 2, V[i, j] = v_i[j] (invSigma 대칭성 이용)
     
@@ -67,8 +59,7 @@ U.f <- function(y, x, thetas) {
 # ============================================================================
 # 사전 계산 함수 (precompute)
 # ============================================================================
-# thetas에 무관한 값들을 optim 루프 바깥에서 1회만 계산하기 위한 함수.
-# 반환값(precomp 리스트)을 각 모델 함수에 전달하면 내부 재계산이 발생하지 않는다.
+
 
 precompute.f <- function(model, P, Q, pi1) {
   nP    <- nrow(P)
